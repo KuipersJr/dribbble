@@ -1,38 +1,30 @@
-﻿using Dribbble.WindowsPhone.Common;
-using Dribbble.WindowsPhone.Data;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ConcreteSolutions.Apoio;
+using Dribbble.Aplicacao;
+using Dribbble.WindowsPhone.Common;
+using Dribbble.WindowsPhone.Data;
 
 // The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
 
 namespace Dribbble.WindowsPhone
 {
-    public sealed partial class PivotPage : Page
+    public sealed partial class PrincipalPage : Page
     {
-        private const string FirstGroupName = "FirstGroup";
+        //ToDo: limpar e renomear.
+        private const string FirstGroupName = "Populares";
+        
         private const string SecondGroupName = "SecondGroup";
 
         private readonly NavigationHelper navigationHelper;
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
-        public PivotPage()
+        public PrincipalPage()
         {
             this.InitializeComponent();
 
@@ -74,8 +66,10 @@ namespace Dribbble.WindowsPhone
         private async void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
-            var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-1");
-            this.DefaultViewModel[FirstGroupName] = sampleDataGroup;
+            //var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-1");
+            var paginaPrincipal = await new PrincipalAplicacao().Obter(Configuracoes.Uris["PaginaPrincipal"]);
+            //var paginaPrincipal = await Http.Obter(Configuracoes.Uris["PaginaPrincipal"]);
+            this.DefaultViewModel[FirstGroupName] = paginaPrincipal;
         }
 
         /// <summary>
@@ -94,26 +88,26 @@ namespace Dribbble.WindowsPhone
         /// <summary>
         /// Adds an item to the list when the app bar button is clicked.
         /// </summary>
-        private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            string groupName = this.pivot.SelectedIndex == 0 ? FirstGroupName : SecondGroupName;
-            var group = this.DefaultViewModel[groupName] as SampleDataGroup;
-            var nextItemId = group.Items.Count + 1;
-            var newItem = new SampleDataItem(
-                string.Format(CultureInfo.InvariantCulture, "Group-{0}-Item-{1}", this.pivot.SelectedIndex + 1, nextItemId),
-                string.Format(CultureInfo.CurrentCulture, this.resourceLoader.GetString("NewItemTitle"), nextItemId),
-                string.Empty,
-                string.Empty,
-                this.resourceLoader.GetString("NewItemDescription"),
-                string.Empty);
+        //private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    string groupName = this.pivot.SelectedIndex == 0 ? FirstGroupName : SecondGroupName;
+        //    var group = this.DefaultViewModel[groupName] as SampleDataGroup;
+        //    var nextItemId = group.Items.Count + 1;
+        //    var newItem = new SampleDataItem(
+        //        string.Format(CultureInfo.InvariantCulture, "Group-{0}-Item-{1}", this.pivot.SelectedIndex + 1, nextItemId),
+        //        string.Format(CultureInfo.CurrentCulture, this.resourceLoader.GetString("NewItemTitle"), nextItemId),
+        //        string.Empty,
+        //        string.Empty,
+        //        this.resourceLoader.GetString("NewItemDescription"),
+        //        string.Empty);
 
-            group.Items.Add(newItem);
+        //    group.Items.Add(newItem);
 
-            // Scroll the new item into view.
-            var container = this.pivot.ContainerFromIndex(this.pivot.SelectedIndex) as ContentControl;
-            var listView = container.ContentTemplateRoot as ListView;
-            listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
-        }
+        //    // Scroll the new item into view.
+        //    var container = this.pivot.ContainerFromIndex(this.pivot.SelectedIndex) as ContentControl;
+        //    var listView = container.ContentTemplateRoot as ListView;
+        //    listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
+        //}
 
         /// <summary>
         /// Invoked when an item within a section is clicked.
@@ -132,11 +126,11 @@ namespace Dribbble.WindowsPhone
         /// <summary>
         /// Loads the content for the second pivot item when it is scrolled into view.
         /// </summary>
-        private async void SecondPivot_Loaded(object sender, RoutedEventArgs e)
-        {
-            var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-2");
-            this.DefaultViewModel[SecondGroupName] = sampleDataGroup;
-        }
+        //private async void SecondPivot_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-2");
+        //    this.DefaultViewModel[SecondGroupName] = sampleDataGroup;
+        //}
 
         #region NavigationHelper registration
 
