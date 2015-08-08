@@ -65,7 +65,6 @@ namespace Dribbble.WindowsPhone
         /// session. The state will be null the first time a page is visited.</param>
         private async void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            // TODO: Create an appropriate data model for your problem domain to replace the sample data
             //var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-1");
             var paginaPrincipal = await new PrincipalAplicacao().Obter(Configuracoes.Uris["PaginaPrincipal"]);
             //var paginaPrincipal = await Http.Obter(Configuracoes.Uris["PaginaPrincipal"]);

@@ -24,7 +24,7 @@
             <!--Pivot item one-->
             <PivotItem
                 x:Uid="PivotItem1"
-                Margin="19,14.5,0,0"
+                Margin="10,14.5,0,0"
                 Header="Populares"
                 DataContext="{Binding Populares}"
                 d:DataContext="{Binding Groups[0], Source={d:DesignData Source=/DataModel/SampleData.json, Type=data:SampleDataSource}}"
@@ -38,20 +38,45 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,9.5">
-                                <TextBlock
-                                    Text="{Binding title}"
-                                    TextWrapping="Wrap"
-                                    Pivot.SlideInAnimationGroup="1"
-                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                    Style="{ThemeResource ListViewItemTextBlockStyle}"
-                                    Margin="0,0,19,0"/>
-                                <TextBlock
-                                    Text="{Binding description}"
-                                    TextWrapping="WrapWholeWords"
-                                    Pivot.SlideInAnimationGroup="2" 
-                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
-                                    Style="{ThemeResource ListViewItemContentTextBlockStyle}"
-                                    Margin="0,0,19,0"/>
+                                <Grid>
+                                    <Image Margin="0, 0, 10, 0" HorizontalAlignment="Center" 
+                                       Source="{Binding image_teaser_url}"/>
+                                    <Border Background="#A0000000" Height="50" 
+                                            VerticalAlignment="Bottom"
+                                            Margin="0, 0, 10, 0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <!--todo: definir estilo.-->
+                                            <TextBlock
+                                                TextTrimming="CharacterEllipsis"
+                                                Grid.Column="0"
+                                                Text="{Binding title}"
+                                                TextWrapping="Wrap"
+                                                Pivot.SlideInAnimationGroup="1"
+                                                CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                                Style="{ThemeResource ListViewItemTextBlockStyle}"
+                                                Margin="10,0,19,10"
+                                                VerticalAlignment="Bottom"
+                                                Foreground="White"
+                                                FontSize="20">
+                                            </TextBlock>
+                                            <SymbolIcon Grid.Column="1" Symbol="57739"
+                                               Foreground="White" Height="auto"/>
+                                            <TextBlock 
+                                                Grid.Column="2"
+                                                Text="{Binding views_count}" 
+                                                HorizontalAlignment="Right"
+                                                Margin="10,0,19,10"
+                                                VerticalAlignment="Bottom"
+                                                Foreground="White"
+                                                FontSize="20"></TextBlock>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -65,7 +90,9 @@
                 Header="second"
                 DataContext="{Binding SecondGroup}"
                 d:DataContext="{Binding Groups[1], Source={d:DesignData Source=/DataModel/SampleData.json, Type=data:SampleDataSource}}">
-                --><!--Double line list no text wrapping--><!--
+                -->
+            <!--Double line list no text wrapping-->
+            <!--
                 <ListView
                     ItemsSource="{Binding Items}"
                     IsItemClickEnabled="True"
