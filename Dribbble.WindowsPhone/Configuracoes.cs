@@ -6,12 +6,19 @@ namespace Dribbble.WindowsPhone
     {
         static Configuracoes()
         {
-            Uris = new Dictionary<string, string>
+            Uris = new Dictionary<Pagina, string>
             {
-                { "PaginaPrincipal", "http://api.dribbble.com/shots/popular?page=1" }
+                { Pagina.Principal, "http://api.dribbble.com/shots/popular?page={0}" },
+                { Pagina.Shot, "http://api.dribbble.com/shots/{0}" }
             };
         }
 
-        public static Dictionary<string, string> Uris { get; set; }
+        public static Dictionary<Pagina, string> Uris { get; set; }
+
+        public enum Pagina
+        {
+            Principal,
+            Shot
+        }
     }
 }

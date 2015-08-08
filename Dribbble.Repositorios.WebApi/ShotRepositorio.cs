@@ -1,4 +1,5 @@
-﻿using ConcreteSolutions.Apoio;
+﻿using System.Threading.Tasks;
+using ConcreteSolutions.Apoio;
 using Dribbble.Dominio;
 using Newtonsoft.Json;
 
@@ -13,9 +14,10 @@ namespace Dribbble.Repositorios.WebApi
             _apiUrl = apirUrl;
         }
 
-        public Pagina Obter()
+        public async Task<Shot> Obter(int id)
         {
-            return JsonConvert.DeserializeObject<Pagina>(Http.Obter(_apiUrl).Result);
+            var shot = await Http.Obter(string.Format(_apiUrl, id));
+            return JsonConvert.DeserializeObject<Shot>(shot);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace Dribbble.Aplicacao
 {
     public class PrincipalAplicacao
     {
-        public async Task<Pagina> Obter(string uri)
+        public async Task<Pagina> Obter(string uri, int numeroPaginaPrincipal)
         {
-            return await new PaginaRepositorio(uri).Obter();
+            return await new PaginaRepositorio(string.Format(uri, numeroPaginaPrincipal)).Obter();
         }
     }
 }

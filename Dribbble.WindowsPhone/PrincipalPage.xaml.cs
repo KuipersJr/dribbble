@@ -1,55 +1,43 @@
 ﻿using System;
-using System.Globalization;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using ConcreteSolutions.Apoio;
 using Dribbble.Aplicacao;
+using Dribbble.Dominio;
 using Dribbble.WindowsPhone.Common;
 using Dribbble.WindowsPhone.Data;
-
-// The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
 
 namespace Dribbble.WindowsPhone
 {
     public sealed partial class PrincipalPage : Page
     {
-        //ToDo: limpar e renomear.
-        private const string FirstGroupName = "Populares";
-        
-        private const string SecondGroupName = "SecondGroup";
+        private const string PopularesGroupName = "Populares";
 
-        private readonly NavigationHelper navigationHelper;
-        private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
-        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+        private readonly NavigationHelper _navigationHelper;
+        private readonly ObservableDictionary _defaultViewModel = new ObservableDictionary();
+        private readonly ResourceLoader _resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
         public PrincipalPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.NavigationCacheMode = NavigationCacheMode.Required;
+            NavigationCacheMode = NavigationCacheMode.Required;
 
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
-            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+            _navigationHelper = new NavigationHelper(this);
+            _navigationHelper.LoadState += NavigationHelper_LoadState;
+            _navigationHelper.SaveState += NavigationHelper_SaveState;
         }
 
-        /// <summary>
-        /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
-        /// </summary>
         public NavigationHelper NavigationHelper
         {
-            get { return this.navigationHelper; }
+            get { return this._navigationHelper; }
         }
 
-        /// <summary>
-        /// Gets the view model for this <see cref="Page"/>.
-        /// This can be changed to a strongly typed view model.
-        /// </summary>
         public ObservableDictionary DefaultViewModel
         {
-            get { return this.defaultViewModel; }
+            get { return this._defaultViewModel; }
         }
 
         /// <summary>
@@ -65,10 +53,14 @@ namespace Dribbble.WindowsPhone
         /// session. The state will be null the first time a page is visited.</param>
         private async void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            //var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-1");
-            var paginaPrincipal = await new PrincipalAplicacao().Obter(Configuracoes.Uris["PaginaPrincipal"]);
-            //var paginaPrincipal = await Http.Obter(Configuracoes.Uris["PaginaPrincipal"]);
-            this.DefaultViewModel[FirstGroupName] = paginaPrincipal;
+            await PopularPaginaPrincipal();
+        }
+
+        private async Task PopularPaginaPrincipal()
+        {
+            var paginaPrincipal = await new PrincipalAplicacao()
+                .Obter(Configuracoes.Uris[Configuracoes.Pagina.Principal], Aplicacao.NumeroPaginaPrincipal);
+            DefaultViewModel[PopularesGroupName] = paginaPrincipal;
         }
 
         /// <summary>
@@ -84,52 +76,15 @@ namespace Dribbble.WindowsPhone
             // TODO: Save the unique state of the page here.
         }
 
-        /// <summary>
-        /// Adds an item to the list when the app bar button is clicked.
-        /// </summary>
-        //private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    string groupName = this.pivot.SelectedIndex == 0 ? FirstGroupName : SecondGroupName;
-        //    var group = this.DefaultViewModel[groupName] as SampleDataGroup;
-        //    var nextItemId = group.Items.Count + 1;
-        //    var newItem = new SampleDataItem(
-        //        string.Format(CultureInfo.InvariantCulture, "Group-{0}-Item-{1}", this.pivot.SelectedIndex + 1, nextItemId),
-        //        string.Format(CultureInfo.CurrentCulture, this.resourceLoader.GetString("NewItemTitle"), nextItemId),
-        //        string.Empty,
-        //        string.Empty,
-        //        this.resourceLoader.GetString("NewItemDescription"),
-        //        string.Empty);
-
-        //    group.Items.Add(newItem);
-
-        //    // Scroll the new item into view.
-        //    var container = this.pivot.ContainerFromIndex(this.pivot.SelectedIndex) as ContentControl;
-        //    var listView = container.ContentTemplateRoot as ListView;
-        //    listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
-        //}
-
-        /// <summary>
-        /// Invoked when an item within a section is clicked.
-        /// </summary>
         private void ItemView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            // Navigate to the appropriate destination page, configuring the new page
-            // by passing required information as a navigation parameter
-            var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
-            if (!Frame.Navigate(typeof(ItemPage), itemId))
+            var shotId = ((Shot)e.ClickedItem).id;
+
+            if (!Frame.Navigate(typeof(ShotPage), shotId))
             {
-                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+                throw new Exception(_resourceLoader.GetString("NavigationFailedExceptionMessage"));
             }
         }
-
-        /// <summary>
-        /// Loads the content for the second pivot item when it is scrolled into view.
-        /// </summary>
-        //private async void SecondPivot_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-2");
-        //    this.DefaultViewModel[SecondGroupName] = sampleDataGroup;
-        //}
 
         #region NavigationHelper registration
 
@@ -148,14 +103,29 @@ namespace Dribbble.WindowsPhone
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
+            _navigationHelper.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedFrom(e);
+            _navigationHelper.OnNavigatedFrom(e);
         }
 
         #endregion
+
+        private async void ProximaPaginaAppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ++Aplicacao.NumeroPaginaPrincipal;
+            await PopularPaginaPrincipal();
+        }
+
+        private async void PaginaAnteriorAppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Aplicacao.NumeroPaginaPrincipal > 1)
+            {
+                --Aplicacao.NumeroPaginaPrincipal;
+                await PopularPaginaPrincipal();
+            }
+        }
     }
 }

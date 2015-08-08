@@ -1,21 +1,9 @@
-﻿using Dribbble.WindowsPhone.Common;
-using Dribbble.WindowsPhone.Data;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
-using Windows.UI.Xaml;
+﻿using System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Dribbble.Aplicacao;
+using Dribbble.WindowsPhone.Common;
+using Dribbble.WindowsPhone.Data;
 
 // The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
 
@@ -24,18 +12,18 @@ namespace Dribbble.WindowsPhone
     /// <summary>
     /// A page that displays details for a single item within a group.
     /// </summary>
-    public sealed partial class ItemPage : Page
+    public sealed partial class ShotPage : Page
     {
-        private readonly NavigationHelper navigationHelper;
-        private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
+        private readonly NavigationHelper _navigationHelper;
+        private readonly ObservableDictionary _defaultViewModel = new ObservableDictionary();
 
-        public ItemPage()
+        public ShotPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
-            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+            _navigationHelper = new NavigationHelper(this);
+            _navigationHelper.LoadState += this.NavigationHelper_LoadState;
+            _navigationHelper.SaveState += this.NavigationHelper_SaveState;
         } 
 
         /// <summary>
@@ -43,7 +31,7 @@ namespace Dribbble.WindowsPhone
         /// </summary>
         public NavigationHelper NavigationHelper
         {
-            get { return this.navigationHelper; }
+            get { return this._navigationHelper; }
         }
 
         /// <summary>
@@ -52,7 +40,7 @@ namespace Dribbble.WindowsPhone
         /// </summary>
         public ObservableDictionary DefaultViewModel
         {
-            get { return this.defaultViewModel; }
+            get { return this._defaultViewModel; }
         }
 
         /// <summary>
@@ -68,9 +56,13 @@ namespace Dribbble.WindowsPhone
         /// session.  The state will be null the first time a page is visited.</param>
         private async void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            // TODO: Create an appropriate data model for your problem domain to replace the sample data.
-            var item = await SampleDataSource.GetItemAsync((string)e.NavigationParameter);
-            this.DefaultViewModel["Item"] = item;
+            var shot = await new ShotAplicacao()
+                .Obter(Configuracoes.Uris[Configuracoes.Pagina.Shot], (int)e.NavigationParameter);
+            
+            DefaultViewModel["Item"] = shot;
+
+            //var item = await SampleDataSource.GetItemAsync((string)e.NavigationParameter);
+            //this.DefaultViewModel["Item"] = item;
         }
 
         /// <summary>
@@ -103,12 +95,12 @@ namespace Dribbble.WindowsPhone
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
+            this._navigationHelper.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedFrom(e);
+            this._navigationHelper.OnNavigatedFrom(e);
         }
 
         #endregion
