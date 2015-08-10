@@ -291,7 +291,7 @@ namespace Dribbble.WindowsPhone.Common
 
         #region Process lifetime management
 
-        private String _pageKey;
+        public String _pageKey;
 
         /// <summary>
         /// Register this event on the current page to populate the page

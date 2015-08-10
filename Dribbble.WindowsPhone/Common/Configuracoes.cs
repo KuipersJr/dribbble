@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Dribbble.WindowsPhone
+namespace Dribbble.WindowsPhone.Common
 {
     public static class Configuracoes
     {

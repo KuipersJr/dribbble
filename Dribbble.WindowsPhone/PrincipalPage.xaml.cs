@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
@@ -53,13 +54,16 @@ namespace Dribbble.WindowsPhone
         /// session. The state will be null the first time a page is visited.</param>
         private async void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            await PopularPaginaPrincipal();
+            //if (_navigationHelper._pageKey == "Page-0")
+            //{
+            //    await PopularPaginaPrincipal();
+            //}
         }
 
         private async Task PopularPaginaPrincipal()
         {
             var paginaPrincipal = await new PrincipalAplicacao()
-                .Obter(Configuracoes.Uris[Configuracoes.Pagina.Principal], Aplicacao.NumeroPaginaPrincipal);
+                .Obter(Configuracoes.Uris[Configuracoes.Pagina.Principal], Common.Aplicacao.NumeroPaginaPrincipal);
             DefaultViewModel[PopularesGroupName] = paginaPrincipal;
         }
 
@@ -101,9 +105,14 @@ namespace Dribbble.WindowsPhone
         /// </summary>
         /// <param name="e">Provides data for navigation methods and event
         /// handlers that cannot cancel the navigation request.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             _navigationHelper.OnNavigatedTo(e);
+
+            if (e.NavigationMode == NavigationMode.New)
+            {
+                await PopularPaginaPrincipal();
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -115,17 +124,22 @@ namespace Dribbble.WindowsPhone
 
         private async void ProximaPaginaAppBarButton_OnClick(object sender, RoutedEventArgs e)
         {
-            ++Aplicacao.NumeroPaginaPrincipal;
+            ++Common.Aplicacao.NumeroPaginaPrincipal;
             await PopularPaginaPrincipal();
         }
 
         private async void PaginaAnteriorAppBarButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Aplicacao.NumeroPaginaPrincipal > 1)
+            if (Common.Aplicacao.NumeroPaginaPrincipal > 1)
             {
-                --Aplicacao.NumeroPaginaPrincipal;
+                --Common.Aplicacao.NumeroPaginaPrincipal;
                 await PopularPaginaPrincipal();
             }
+        }
+
+        private async void AtualizarAppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await PopularPaginaPrincipal();
         }
     }
 }

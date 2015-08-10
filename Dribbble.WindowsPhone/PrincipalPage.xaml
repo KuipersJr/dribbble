@@ -45,6 +45,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton x:Uid="PaginaAnteriorAppBarButton" x:Name="PaginaAnteriorAppBarButton" Label="Anterior" Icon="Back" Click="PaginaAnteriorAppBarButton_OnClick" />
+            <AppBarButton x:Uid="AtualizarAppBarButton" x:Name="AtualizarAppBarButton" Label="Atualizar" Icon="Refresh" Click="AtualizarAppBarButton_OnClick" />
             <AppBarButton x:Uid="ProximaPaginaAppBarButton" x:Name="ProximaPaginaAppBarButton" Label="Próxima" Icon="Forward" Click="ProximaPaginaAppBarButton_OnClick" />
         </CommandBar>
     </Page.BottomAppBar>

@@ -94,7 +94,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aplicacao.cs" />
+    <Compile Include="Common\Aplicacao.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -102,8 +102,9 @@
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
-    <Compile Include="Configuracoes.cs" />
+    <Compile Include="Common\Configuracoes.cs" />
     <Compile Include="DataModel\SampleDataSource.cs" />
+    <Compile Include="Conversores\HtmlTagConversor.cs" />
     <Compile Include="ShotPage.xaml.cs">
       <DependentUpon>ShotPage.xaml</DependentUpon>
     </Compile>
