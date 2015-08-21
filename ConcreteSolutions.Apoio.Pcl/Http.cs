@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ConcreteSolutions.Apoio
+namespace ConcreteSolutions.Apoio.Pcl
 {
     public static class Http
     {
