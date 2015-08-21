@@ -54,8 +54,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConcreteSolutions.Apoio.Pcl\ConcreteSolutions.Apoio.Pcl.csproj">
+      <Project>{570510A1-E949-4DB6-A9AB-AD4447D4D5F2}</Project>
+      <Name>ConcreteSolutions.Apoio.Pcl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConcreteSolutions.Apoio\ConcreteSolutions.Apoio.csproj">
-      <Project>{880b1106-c5c1-4a4d-ac89-a1ea2e981978}</Project>
+      <Project>{a3dfa733-a845-4600-b693-cafeba92e5d9}</Project>
       <Name>ConcreteSolutions.Apoio</Name>
     </ProjectReference>
   </ItemGroup>

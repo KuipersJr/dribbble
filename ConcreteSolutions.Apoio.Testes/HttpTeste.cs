@@ -1,4 +1,5 @@
 ﻿using System;
+using ConcreteSolutions.Apoio.Pcl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ConcreteSolutions.Apoio.Testes

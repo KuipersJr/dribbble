@@ -144,10 +144,6 @@
     </PRIResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConcreteSolutions.Apoio\ConcreteSolutions.Apoio.csproj">
-      <Project>{880b1106-c5c1-4a4d-ac89-a1ea2e981978}</Project>
-      <Name>ConcreteSolutions.Apoio</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dribbble.Aplicacao\Dribbble.Aplicacao.csproj">
       <Project>{fa5b4c11-e257-4966-9568-d2dee97fafc5}</Project>
       <Name>Dribbble.Aplicacao</Name>

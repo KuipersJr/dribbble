@@ -10,5 +10,10 @@ namespace Dribbble.Aplicacao
         {
             return await new ShotRepositorio(uri).Obter(shotId);
         }
+
+        public async Task<string> ObterJson(string uri, int shotId)
+        {
+            return await new ShotRepositorio(uri).ObterJson(shotId);
+        }
     }
 }

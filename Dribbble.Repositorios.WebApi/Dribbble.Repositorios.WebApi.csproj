@@ -81,9 +81,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\ConcreteSolutions.Apoio\ConcreteSolutions.Apoio.csproj">
-      <Project>{880B1106-C5C1-4A4D-AC89-A1EA2E981978}</Project>
-      <Name>ConcreteSolutions.Apoio</Name>
+    <ProjectReference Include="..\ConcreteSolutions.Apoio.Pcl\ConcreteSolutions.Apoio.Pcl.csproj">
+      <Project>{570510A1-E949-4DB6-A9AB-AD4447D4D5F2}</Project>
+      <Name>ConcreteSolutions.Apoio.Pcl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dribbble.Dominio\Dribbble.Dominio.csproj">
       <Project>{28864511-a4f6-44eb-9a3f-d5d934dbab97}</Project>
